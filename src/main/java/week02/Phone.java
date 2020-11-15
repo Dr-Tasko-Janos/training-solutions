@@ -47,6 +47,7 @@ public class Phone {
 
         Phone phone1 = new Phone(type1, mem1);
         Phone phone2 = new Phone(type2, mem2);
+
         System.out.println("\nType of phone1: " + phone1.getType());
         System.out.println("Mem of phone1: " + phone1.getMem());
         System.out.println("\nType of phone2: " + phone2.getType());
