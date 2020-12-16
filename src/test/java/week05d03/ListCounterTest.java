@@ -13,7 +13,7 @@ public class ListCounterTest {
     ListCounter testCase = new ListCounter();
 
     List<String> myList1 = Arrays.asList("Neque", "porro", "quisquam", "est", "qui",
-            "dolorem", "ipsum", "quia", "dolor", "sit", "amet", "consectetur", "Adipisci", "velit");
+            "dolorem", "ipsum", "quia", "dolor", "sit", "xamet", "consectetur", "xAdipisci", "velit");
 
     List<String> myList2 = Arrays.asList("Neque", "porro", "quisquam", "est", "qui",
             "dolorem", "ipsum", "quia", "dolor", "sit", "amet", "consectetur", "adipisci", "velit", "Anna");
@@ -21,7 +21,7 @@ public class ListCounterTest {
 
     @Test
     public void testListCounter1(){
-        assertEquals(2, testCase.listCounter(myList1));
+        assertEquals(0, testCase.listCounter(myList1));
     }
 
 
