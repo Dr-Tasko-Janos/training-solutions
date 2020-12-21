@@ -35,6 +35,10 @@ public class ArrayOfArraysMain {
         scanner.nextLine();
         scanner.nextLine();
 
+        //Print out the values of the dailyMeasurements array
+        System.out.println("The values of the getValues method: " + Arrays.deepToString(arrayOfArraysMain.getValues()));
+        scanner.nextLine();
+
         //Bonus Task 1.
         System.out.print("\nHere is the test of the \"The Bonus Task 1.\". For test purpose, enter the size of the multiplication table:");
         arrayOfArraysMain.printArrayOfArraysBonus(arrayOfArraysMain.multiplicationTable(scanner.nextInt()));
@@ -78,6 +82,29 @@ public class ArrayOfArraysMain {
         }
         return triangularMatrix;
     }
+
+    //Implementation of the daily measured values task:
+    public int[][] getValues(){
+        int[][] dailyMeasurements = new int[12][];
+
+        //31,30,31,30,31
+        dailyMeasurements[0] = new int[31];
+        dailyMeasurements[1] = new int[28];
+        dailyMeasurements[2] = new int[31];
+        dailyMeasurements[3] = new int[30];
+        dailyMeasurements[4] = new int[31];
+        dailyMeasurements[5] = new int[30];
+        dailyMeasurements[6] = new int[31];
+        dailyMeasurements[7] = new int[31];
+        dailyMeasurements[8] = new int[30];
+        dailyMeasurements[9] = new int[31];
+        dailyMeasurements[10] = new int[30];
+        dailyMeasurements[11] = new int[31];
+
+        int[][] dailyMeasurements2 = {{31}, {28}, {31}, {30}, {31}, {30}, {31}, {31}, {30}, {31}, {30}, {31}};
+        return dailyMeasurements;
+    }
+
 
     //Bonus Task 1 implementation:
     public void printArrayOfArraysBonus(int[][] a) {
