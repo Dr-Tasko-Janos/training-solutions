@@ -47,5 +47,17 @@ public class Capsules {
         System.out.println(capsules.getColors());
         capsules.removeLast();
         System.out.println(capsules.getColors());
+
+
+        //Solving Bonus1 task:
+        System.out.println("\nSolving Bonus1 task:");
+        List<String> newCapsules = capsules.getColors();
+        System.out.println("Items inside newCaspsules List: " + newCapsules.toString());
+        System.out.println("Items inside the original capsules List: " + capsules.getColors());
+        System.out.println("\nApplication of the clear() method on the newCapsules list and  check the result of it:\n");
+        newCapsules.clear();
+        System.out.println("Items inside of the newCapsules List: " + newCapsules.toString());
+        System.out.println("Items inside of the original capsules List: " + capsules.getColors());
+
     }
 }
