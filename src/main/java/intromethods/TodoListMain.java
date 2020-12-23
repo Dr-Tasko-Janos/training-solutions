@@ -33,5 +33,9 @@ public class TodoListMain {
         System.out.println("List of the finished tasks: " + myTodoList.todosToFinish());
 
         System.out.println("Number of tasks which has finished till now: " + myTodoList.numberOfFinishedTodos());
+
+        //ArrayList toString()
+        System.out.println("ArrazList toString method: ");
+        System.out.println(myTodoList);
     }
 }
