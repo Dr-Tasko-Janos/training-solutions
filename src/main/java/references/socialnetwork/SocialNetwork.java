@@ -35,4 +35,9 @@ public class SocialNetwork {
         }
         return bidirectionalConnectionsList;
     }
+
+    @Override
+    public String toString(){
+        return member.toString();
+    }
 }
