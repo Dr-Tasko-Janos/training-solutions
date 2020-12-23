@@ -50,5 +50,14 @@ public class TodoList {
         }
         return counter;
     }
+
+    @Override
+    public String toString(){
+        String text = "These are the captions: ";
+        for(int i = 0; i < todos.size(); i++){
+            text += (i == todos.size() -1)? todos.get(i).getCaption() : todos.get(i).getCaption() + ", ";
+        }
+        return text;
+    }
 }
 
