@@ -8,11 +8,13 @@ public class Budget {
 
     private List<Item> itemList = new ArrayList<>();
 
-        public Budget(List<Item> itemList){
-        if(itemList != null && itemList instanceof List ){
+    public Budget(List<Item> itemList) {
+        if (itemList != null && itemList instanceof List) {
             this.itemList = itemList;
-        } else {
+        } else if (itemList == null) {
             throw new IllegalArgumentException("Expected a List of \"Item\" Elements at least with one element");
+        } else {
+            throw new RuntimeException("Something went wrong! Sorry! :-)");
         }
     }
 
@@ -47,7 +49,7 @@ public class Budget {
         Item item14 = new Item(110, 1, "productJ");
         Item item15 = new Item(220, 12, "productD");
 
-        List<Item> myList = Arrays.asList(item1, item2, item3, item4, item5,item6, item7, item8, item9, item10, item11, item12, item13, item14, item15);
+        List<Item> myList = Arrays.asList(item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15);
 
         Budget budget = new Budget(myList);
 
