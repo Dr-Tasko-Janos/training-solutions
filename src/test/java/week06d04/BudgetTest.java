@@ -32,4 +32,18 @@ public class BudgetTest {
 
         assertEquals(4, new Budget(myList).getItemsByMonth(1).size());
     }
+
+    @Test
+    public void testWithNullList() {
+        List<Item> myNullList = null;
+        assertEquals(4, new Budget(myNullList).getItemsByMonth(1).size());
+    }
+
+    @Test
+    public void testWithEmptyList() {
+        List<Item> myNullList = Arrays.asList();
+        assertEquals(4, new Budget(myNullList).getItemsByMonth(1).size());
+    }
+
+
 }
