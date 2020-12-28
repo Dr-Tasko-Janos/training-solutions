@@ -32,4 +32,16 @@ public class PrintedFeatures implements Feature {
     public int getNumberOfPages() {
         return numberOfPages;
     }
+
+    public void setAuthors(List<String> authors) {
+        this.authors = authors;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
