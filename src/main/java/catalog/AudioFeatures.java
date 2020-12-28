@@ -22,6 +22,7 @@ public class AudioFeatures implements Feature{
         this.composer = composer;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -30,6 +31,7 @@ public class AudioFeatures implements Feature{
         return length;
     }
 
+    @Override
     public List<String> getContributors() {
         List<String> contributors = new ArrayList<>();
 
@@ -42,6 +44,6 @@ public class AudioFeatures implements Feature{
         }
 
         Collections.sort(contributors);
-        return contributors;
+        return List.copyOf(contributors);
     }
 }
