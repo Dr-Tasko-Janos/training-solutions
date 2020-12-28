@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AudioFeatures {
+public class AudioFeatures implements Feature{
 
     private int length;
     private String title;
