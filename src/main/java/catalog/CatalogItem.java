@@ -28,7 +28,7 @@ public class CatalogItem {
         for (Feature feature : features) {
             allContributors.addAll(feature.getContributors());
         }
-        Collections.sort(allContributors);
+       // Collections.sort(allContributors);
         return List.copyOf(allContributors);
     }
 
@@ -37,7 +37,7 @@ public class CatalogItem {
         for (Feature feature : features) {
             allTitles.add(feature.getTitle());
         }
-        Collections.sort(allTitles);
+        //Collections.sort(allTitles);
         return List.copyOf(allTitles);
     }
 
