@@ -10,14 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CatalogItemTest {
 
-    CatalogItem catalogItem = new CatalogItem("R-1",
+    CatalogItem catalogItem = new CatalogItem("R-1", 300,
             new AudioFeatures("Night Visions", 185, Arrays.asList("Dan Raynolds"), Arrays.asList("Imagine Dragons")),
             new PrintedFeatures("Harry Potter", 600, Arrays.asList("J.K. Rowling")),
             new AudioFeatures("Piece of Mind", 200, Arrays.asList("Steve Harris"), Arrays.asList("Iron Maiden"))
     );
 
 
-    CatalogItem catalogItem2 = new CatalogItem("R-2",
+    CatalogItem catalogItem2 = new CatalogItem("R-2", 300,
             new PrintedFeatures("Harry Potter", 600, Arrays.asList("J.K. Rowling"))
     );
 
