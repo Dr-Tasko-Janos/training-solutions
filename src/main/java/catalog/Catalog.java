@@ -39,6 +39,27 @@ public class Catalog {
         return List.copyOf(printedLibraryItems);
     }
 
+    public List<CatalogItem> findByCriteria(SearchCriteria searchCriteria) {
+        List<CatalogItem> foundElements = new ArrayList<>();
+        for (CatalogItem item1 : catalogItems) {
+            if (searchCriteria.hasTitle()) {
+                for (String item2 : item1.getTitles()) {
+                    if (searchCriteria.getTitle().equals(item2)) {
+                        foundElements.add(item1);
+                    }
+                }
+
+            } else if (!searchCriteria.hasTitle() && searchCriteria.hasContributor()) {
+                for (String item2 : item1.getContributors()) {
+                    if (searchCriteria.getContributor().equals(item2)) {
+                        foundElements.add(item1);
+                    }
+                }
+            }
+        }
+        return foundElements;
+    }
+
     public int getAllPageNumber() {
         int sumOfPageNumber = 0;
         for (CatalogItem catalogItem : catalogItems) {
