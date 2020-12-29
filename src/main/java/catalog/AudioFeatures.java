@@ -1,7 +1,6 @@
 package catalog;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class AudioFeatures implements Feature{
@@ -58,7 +57,7 @@ public class AudioFeatures implements Feature{
             contributors.add(composeR);
         }
 
-        Collections.sort(contributors);
+       // Collections.sort(contributors);
         return List.copyOf(contributors);
     }
 }
