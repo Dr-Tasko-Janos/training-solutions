@@ -12,13 +12,28 @@ public class AudioFeatures implements Feature{
     private List<String> composer = new ArrayList<>();
 
     public AudioFeatures(String title, int length, List<String> performers) {
+        if(Validators.isBlank(title)){
+            throw new IllegalArgumentException("Title must not be empty!");
+        }
         this.title = title;
+
+        if(length <= 0){
+            throw new IllegalArgumentException("Length must be greater than zero!");
+        }
         this.length = length;
+
+        if(Validators.isEmpty(performers)){
+            throw new IllegalArgumentException("Performers must not be empty!");
+        }
         this.performers = performers;
     }
 
     public AudioFeatures(String title, int length, List<String> performers, List<String> composer) {
         this(title, length, performers);
+
+        if(Validators.isEmpty(composer)){
+            throw new IllegalArgumentException("Composer must be not empty!");
+        }
         this.composer = composer;
     }
 
@@ -36,11 +51,11 @@ public class AudioFeatures implements Feature{
         List<String> contributors = new ArrayList<>();
 
         for (String performer : performers) {
-            contributors.add(performer + "(P)");
+            contributors.add(performer);
         }
 
         for (String composeR : composer) {
-            contributors.add(composeR + "(C)");
+            contributors.add(composeR);
         }
 
         Collections.sort(contributors);
