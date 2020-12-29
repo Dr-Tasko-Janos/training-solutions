@@ -48,6 +48,10 @@ public class Catalog {
     }
 
     public double averagePageNumberOver(int referenceValue) {
+        if(referenceValue <=0){
+            throw new IllegalArgumentException("Number of pages must be a positive integer value!");
+        }
+
         int sumOfPages = 0;
         int numberOfElements = 0;
         for (CatalogItem catalogItem : catalogItems) {
