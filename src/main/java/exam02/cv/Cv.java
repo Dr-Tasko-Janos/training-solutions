@@ -24,13 +24,15 @@ public class Cv {
         for (int i = 0; i < complexName.length; i++) {
             String basic = complexName[i];
 
-            String name = basic.trim().substring(0, getSkills().indexOf("("));
+            String name = basic.substring(0, basic.indexOf("(") - 1);
+            System.out.println(name);
 
-            String level = basic.substring(basic.indexOf(")") - 1);
+            String level = basic.substring(basic.indexOf(")") - 1, basic.indexOf(")"));
             int levelX = Integer.parseInt(level);
-
+            System.out.println(levelX);
             newSkills.add(new Skill(name, levelX));
         }
+        addSkills(newSkills);
     }
 
 
@@ -59,18 +61,25 @@ public class Cv {
 
 
     //Other methods
-    public String findSkillLevelByName(String skillName) {
-        String returnString = "";
+    public int findSkillLevelByName(String skillName) {
+        int levelValue = 0;
         for (Skill item : skills) {
             if (item.getName().equals(skillName)) {
-                return skillName + "(" + item.getLevel() + ")";
+                levelValue = item.getLevel();
+                return levelValue;
             }
         }
-        return null;
+        throw new RuntimeException("Item not found");
     }
 
 
     //Custom exception:
     class SkillNotFoundException extends Exception {
     }
+
+   /* public static void main(String[] args) {
+        Cv cv = new Cv("János");
+        cv.addSkills("C# (2)", "Java (13)", "Python (5)");
+        System.out.println(cv.findSkillLevelByName("Java"));
+    }*/
 }
