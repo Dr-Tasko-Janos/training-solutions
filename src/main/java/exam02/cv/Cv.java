@@ -19,6 +19,30 @@ public class Cv {
         return name;
     }
 
+
+    public void addSkills(String... complexName){
+        List<Skill> newSkills = new ArrayList<>();
+        for(int i = 0; i < complexName.length; i++){
+           String basic = complexName[i];
+           String name = basic.trim().substring(0, getSkills().indexOf("("));
+           String level = basic.substring(basic.indexOf(")") - 1);
+           int levelX = Integer.parseInt(level);
+           newSkills.add(new Skill(name, levelX));
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     public List<Skill> getSkills(){
         return skills;
     }
