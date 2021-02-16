@@ -19,6 +19,38 @@ public class Cruise {
         this.basicPrice = basicPrice;
     }
 
+    public List<Passenger> getPassengers() {
+        return passengers;
+    }
+
+    public Boat getBoat() {
+        return boat;
+    }
+
+    public LocalDate getSailing() {
+        return sailing;
+    }
+
+    public double getBasicPrice() {
+        return basicPrice;
+    }
+
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
+    }
+
+    public void setBoat(Boat boat) {
+        this.boat = boat;
+    }
+
+    public void setSailing(LocalDate sailing) {
+        this.sailing = sailing;
+    }
+
+    public void setBasicPrice(double basicPrice) {
+        this.basicPrice = basicPrice;
+    }
+
     public void bookPassenger(Passenger passenger) {
         if (passengers.size() == boat.getMaxPassenger()) {
             throw new IllegalStateException("There is no empty space on the ship");
@@ -51,7 +83,7 @@ public class Cruise {
         return namesInOrder;
     }
 
-    public double sumAllBookingsCharge() {
+    public double sumAllBookingsCharged() {
 
         double allCharge = 0.0;
 
