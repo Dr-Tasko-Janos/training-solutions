@@ -162,8 +162,8 @@ public class SingleRegistration {
             System.out.printf("\n\nYou entered the following data:\n " +
                             "\tname: %s \n\tpostCode (settlement): %d (%s) \n\tage: %d \n\te-mail: %s \n\tSocial Security Number: %s",
                     name, postCode, new CovidDao().settlementFromPostcode(new CovidDao().getDataSource(), postCode), age, email, ssn);
-
-            new CovidDao().registerPatient(name, postCode, age, email, ssn);
+            CovidMain.citizen_id = CovidMain.citizen_id + 1;
+            new CovidDao().registerPatient(CovidMain.citizen_id, name, postCode, age, email, ssn);
             flagForRun = false;
         }
         if (flagForRun == true) {
