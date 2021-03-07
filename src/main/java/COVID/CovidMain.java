@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class CovidMain {
 
+    static int citizen_id = new CovidDao().lastPatientIdFinder();
+
     public static void main(String[] args) {
 
         MariaDbDataSource dataSource = new MariaDbDataSource();
