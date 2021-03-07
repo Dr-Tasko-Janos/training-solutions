@@ -43,5 +43,22 @@ public class CovidOtherMethods {
         }
         return ((new CovidOtherMethods().castingTextToNumberChecker(ssn)) && ssn.length() == 9 && validationIndicator && !(new CovidDao().isSsnExists(new CovidDao().getDataSource(), ssn)));
     }
+
+    public boolean isSsnValidForVaccination(String ssn) {
+        int validationNumber = 0;
+        boolean validationIndicator = false;
+        if (new CovidOtherMethods().castingTextToNumberChecker(ssn)) {
+            for (int i = 0; i < 8; i += 2) {
+                validationNumber += (Integer.parseInt(ssn.substring(i, i + 1)) * 3);
+            }
+
+            for (int i = 1; i < 8; i += 2) {
+                validationNumber += (Integer.parseInt(ssn.substring(i, i + 1)) * 7);
+            }
+
+            validationIndicator = (validationNumber % 10 == Integer.parseInt(ssn.substring(8))) ? true : false;
+        }
+        return ((new CovidOtherMethods().castingTextToNumberChecker(ssn)) && ssn.length() == 9 && validationIndicator && (new CovidDao().isSsnExists(new CovidDao().getDataSource(), ssn)));
+    }
 }
 
