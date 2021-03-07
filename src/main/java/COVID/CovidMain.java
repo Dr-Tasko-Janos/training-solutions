@@ -58,6 +58,16 @@ public class CovidMain {
                                 scanner.nextLine();
                                 System.out.println();
                                 break inner;
+                            case 4:
+                                new Vaccination().vaccination();
+                                scanner.nextLine();
+                                System.out.println();
+                                break inner;
+                            case 6:
+                                new Riport().riport();
+                                scanner.nextLine();
+                                System.out.println();
+                                break inner;
                             case 0:
                                 System.out.println("The program is Exit.");
                                 scanner.close();
