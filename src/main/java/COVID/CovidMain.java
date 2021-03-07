@@ -33,7 +33,7 @@ public class CovidMain {
             System.out.println("3. Generate Query List(Generálás)");
             System.out.println("4. Vaccination(Oltás)");
             System.out.println("5. Failed Vaccination(Oltás meghiúsulás)");
-            System.out.println("6. Riport");
+            System.out.println("6. Report");
 
             System.out.print("\nType the number of the chosen option from above: ");
 
@@ -64,7 +64,7 @@ public class CovidMain {
                                 System.out.println();
                                 break inner;
                             case 6:
-                                new Riport().riport();
+                                new Report().riport();
                                 scanner.nextLine();
                                 System.out.println();
                                 break inner;
