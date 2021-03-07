@@ -62,142 +62,160 @@ public class CovidDao {
         return searchResult;
     }
 
-    public void registerPatient(String citizen_name, int zip, int age, String email, String ssn) {
 
-        try (Connection conn = getDataSource().getConnection();
-             PreparedStatement stmt = conn.prepareStatement("insert into citizens (citizen_name, zip, age, email, ssn, number_of_vaccination) values (?, ?, ?, ?, ?, ?)")) {
-            stmt.setString(1, citizen_name);
-            stmt.setInt(2, zip);
-            stmt.setInt(3, age);
-            stmt.setString(4, email);
-            stmt.setString(5, ssn);
-            stmt.setInt(6, 0);
-            stmt.executeUpdate();
+    ////////////////////////////////
+
+
+    public void registerPatient(int citizen_id, String citizen_name, int zip, int age, String email, String ssn) {
+
+        try (Connection conn1 = getDataSource().getConnection()) {
+
+            conn1.setAutoCommit(false);
+
+            try (PreparedStatement stmt1 = conn1.prepareStatement("insert into citizens (citizen_id, citizen_name, zip, age, email, ssn, number_of_vaccination) values (?, ?, ?, ?, ?, ?, ?)")) {
+                stmt1.setInt(1, citizen_id);
+                stmt1.setString(2, citizen_name);
+                stmt1.setInt(3, zip);
+                stmt1.setInt(4, age);
+                stmt1.setString(5, email);
+                stmt1.setString(6, ssn);
+                stmt1.setInt(7, 0);
+                stmt1.executeUpdate();
+
+
+                try (PreparedStatement stmt2 = conn1.prepareStatement("insert into vaccinations (citizen_id, status) values (?, ?)")) {
+                    stmt2.setInt(1, citizen_id);
+                    stmt2.setInt(2, 0);
+                    stmt2.executeUpdate();
+                    conn1.commit();
+                }
+
+            } catch (
+                    SQLException sqle) {
+                conn1.rollback();
+                throw new IllegalArgumentException("Error by insert", sqle);
+            }
+            conn1.commit();
         } catch (SQLException sqle) {
-            throw new IllegalArgumentException("Error by insert", sqle);
+            throw new IllegalArgumentException("Error by set autocommit to false", sqle);
         }
     }
+
+
+    ////////////////////////////////////////
 
     public void registerPatient(Connection conn, String citizen_name, int zip, int age, String email, String ssn) {
-        try (PreparedStatement stmt = conn.prepareStatement("insert into citizens (citizen_name, zip, age, email, ssn, number_of_vaccination) values (?, ?, ?, ?, ?, ?)")) {
-            stmt.setString(1, citizen_name);
-            stmt.setInt(2, zip);
-            stmt.setInt(3, age);
-            stmt.setString(4, email);
-            stmt.setString(5, ssn);
-            stmt.setInt(6, 0);
-            stmt.executeUpdate();
-        } catch (SQLException sqle) {
-            throw new IllegalArgumentException("Error by insert", sqle);
-        }
-    }
+        try {
+            conn.setAutoCommit(false);
 
-    public Set<String> queryPostCodesExists() {
 
-        Set<String> zipSet = new HashSet<>();
+            try (PreparedStatement stmt1 = conn.prepareStatement("insert into citizens (citizen_id, citizen_name, zip, age, email, ssn, number_of_vaccination) values (?, ?, ?, ?, ?, ?, ?)")) {
+                CovidMain.citizen_id = CovidMain.citizen_id + 1;
+                stmt1.setInt(1, CovidMain.citizen_id);
+                stmt1.setString(2, citizen_name);
+                stmt1.setInt(3, zip);
+                stmt1.setInt(4, age);
+                stmt1.setString(5, email);
+                stmt1.setString(6, ssn);
+                stmt1.setInt(7, 0);
+                stmt1.executeUpdate();
 
-        MariaDbDataSource dataSource = getDataSource();
-
-        try (Connection conn = dataSource.getConnection()) {
-            Statement stmt = conn.createStatement();
-            try (ResultSet rs = stmt.executeQuery("select distinct(ssn) from citizens")) {
-                while (rs.next()) {
-                    zipSet.add(rs.getString("ssn"));
+                try (PreparedStatement stmt2 = conn.prepareStatement("insert into vaccinations (citizen_id, status) values (?, ?)")) {
+                    stmt2.setInt(1, CovidMain.citizen_id);
+                    stmt2.setInt(2, 0);
+                    stmt2.executeUpdate();
+                    conn.commit();
                 }
+
+            } catch (SQLException sqle) {
+                conn.rollback();
+                throw new IllegalArgumentException("Error by insert", sqle);
             }
-        } catch (SQLException sqle) {
-            throw new IllegalArgumentException("Error caused by query", sqle);
+            conn.commit();
+        }catch(SQLException sqle) {
+        throw new IllegalArgumentException("Error by set autocommit to false", sqle);
         }
-        return zipSet;
     }
 
-    public void queryForVaccinationByPosteCodeIntoFile(String fileName, int postCode) {
-        LocalTime startTime = LocalTime.of(07, 30);
+        ////////////////////////////////////////
 
-        Path file = Path.of(fileName);
+        public Set<String> queryPostCodesExists () {
 
-        try (BufferedWriter writer = Files.newBufferedWriter(file)) {
-
-            writer.write("Időpont;Név;Irányítószám;Életkor;E-mail cím;TAJ szám\n");
+            Set<String> zipSet = new HashSet<>();
 
             MariaDbDataSource dataSource = getDataSource();
 
-            try (Connection conn = dataSource.getConnection();
-                 PreparedStatement stmt = conn.prepareStatement(" select citizen_name, zip, age, email, ssn from citizens as cit\n" +
-                         " inner join vaccinations as vac on cit.citizen_id = vac.citizen_id \n" +
-                         " where zip = ? and status < 2 and (status = 0 or (ABS(DATEDIFF(current_timestamp,vac.vaccination_date )) >= 15)) \n" +
-                         " order by age, citizen_name\n" +
-                         " limit 16;")) {
-                stmt.setInt(1, postCode);
-                try (ResultSet rs = stmt.executeQuery()) {
+            try (Connection conn = dataSource.getConnection()) {
+                Statement stmt = conn.createStatement();
+                try (ResultSet rs = stmt.executeQuery("select distinct(ssn) from citizens")) {
                     while (rs.next()) {
-                        for (int i = 0; i < 5; i++) {
-                            int j = i - 1;
-                            if (j == -1) {
-                                writer.write(startTime.plusMinutes(30).toString() + ";");
-                                j++;
-                            }
-                            writer.write((rs.getString(Headers.values()[j].name())) + ((j == 5) ? ";\n" : ";"));
-                        }
+                        zipSet.add(rs.getString("ssn"));
                     }
-                } catch (SQLException sqle) {
-                    throw new IllegalArgumentException("Error caused by ResultSet", sqle);
                 }
             } catch (SQLException sqle) {
-                throw new IllegalArgumentException("Error by query", sqle);
+                throw new IllegalArgumentException("Error caused by query", sqle);
             }
-        } catch (IOException ioe) {
-            throw new IllegalStateException("File can not write", ioe);
+            return zipSet;
+        }
+
+        public void queryForVaccinationByPosteCodeIntoFile (String fileName,int postCode){
+            LocalTime startTime = LocalTime.of(07, 30);
+
+            Path file = Path.of(fileName);
+
+            try (BufferedWriter writer = Files.newBufferedWriter(file)) {
+
+                writer.write("Időpont;Név;Irányítószám;Életkor;E-mail cím;TAJ szám\n");
+
+                MariaDbDataSource dataSource = getDataSource();
+
+                try (Connection conn = dataSource.getConnection();
+                     PreparedStatement stmt = conn.prepareStatement(" select citizen_name, zip, age, email, ssn from citizens as cit\n" +
+                             " inner join vaccinations as vac on cit.citizen_id = vac.citizen_id \n" +
+                             " where zip = ? and status < 2 and (status = 0 or (ABS(DATEDIFF(current_timestamp,vac.vaccination_date )) >= 15)) \n" +
+                             " order by age desc, citizen_name asc\n" +
+                             " limit 16;")) {
+                    stmt.setInt(1, postCode);
+                    try (ResultSet rs = stmt.executeQuery()) {
+                        while (rs.next()) {
+                            for (int i = 0; i < 5; i++) {
+                                int j = i - 1;
+                                if (j == -1) {
+                                    startTime = startTime.plusMinutes(30);
+                                    writer.write(startTime.toString() + ";");
+                                    //j++;
+                                }
+                                writer.write((rs.getString(Headers.values()[i].name())) + ((i == 4) ? ";\n" : ";"));
+                            }
+                        }
+                    } catch (SQLException sqle) {
+                        throw new IllegalArgumentException("Error caused by ResultSet", sqle);
+                    }
+                } catch (SQLException sqle) {
+                    throw new IllegalArgumentException("Error by query", sqle);
+                }
+            } catch (IOException ioe) {
+                throw new IllegalStateException("File can not write", ioe);
+            }
+        }
+
+        public int lastPatientIdFinder () {
+            int lastPatientId = 0;
+
+            MariaDbDataSource dataSource = getDataSource();
+            try (Connection conn = dataSource.getConnection();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery("select max(citizen_id) from citizens")) {
+
+                if (rs.next()) {
+                    lastPatientId = rs.getInt("max(citizen_id)");
+                }
+            } catch (SQLException sqle) {
+                throw new IllegalStateException("Error by query", sqle);
+            }
+            return lastPatientId;
         }
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
